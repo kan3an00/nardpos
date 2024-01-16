@@ -8,6 +8,9 @@ import { User } from './users/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { JwtModule } from '@nestjs/jwt';
+import { TransactionsModule } from './transactions/transactions.module';
+import { Transaction } from './transactions/transaction.entity';
+import { TransactionProduct } from './transactions/transaction-product.entity';
 
 @Module({
   imports: [
@@ -23,8 +26,9 @@ import { JwtModule } from '@nestjs/jwt';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Product, User],
+      entities: [TransactionProduct, Transaction, Product, User],
       synchronize: true,
+      logging: true,
     }),
     JwtModule.register({
       global: true,
@@ -34,6 +38,7 @@ import { JwtModule } from '@nestjs/jwt';
     ProductsModule,
     AuthModule,
     UsersModule,
+    TransactionsModule,
   ],
   controllers: [],
   providers: [],

@@ -1,16 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { TransactionProduct } from 'src/transactions/transaction-product.entity';
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column()
-  price: number;
+    @Column()
+    price: number;
 
-  @Column()
-  quantity: number;
+    @Column()
+    quantity: number;
+
+    @OneToMany(() => TransactionProduct, (transactionProduct) => transactionProduct.product)
+    transactionProducts: TransactionProduct[];
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 }

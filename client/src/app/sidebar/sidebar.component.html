@@ -1,0 +1,28 @@
+<div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+  <!-- Sidebar component, swap this element with another sidebar if you like -->
+  <div class="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5">
+      <div class="flex flex-shrink-0 items-center px-6">
+          <img src="/logo.png" class="h-14 mx-auto" alt="">
+      </div>
+      <div class="mt-10 flex flex-grow flex-col justify-between pb-8">
+          <nav class="space-y-1 px-5 pb-4">
+              <a *ngFor="let item of navigation" [routerLink]="item.href"
+                 [class.bg-primary]="item.current" [class.text-white]="item.current"
+                 [class.text-black]="!item.current" [class.hover:bg-gray-50]="!item.current"
+                 [class.hover:text-gray-900]="!item.current"
+                 class="group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                  <ng-container *ngIf="item.icon; else textOnly">
+                      <item.icon class="mr-3 flex-shrink-0 h-6 w-6"
+                                 [class.text-white]="item.current"
+                                 [class.text-black]="!item.current"
+                                 [class.group-hover:text-black]="!item.current"
+                                 aria-hidden="true"></item.icon>
+                  </ng-container>
+                  <ng-template #textOnly>
+                      {{ item.name }}
+                  </ng-template>
+              </a>
+          </nav>
+      </div>
+  </div>
+</div>
