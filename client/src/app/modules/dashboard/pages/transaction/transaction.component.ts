@@ -13,7 +13,10 @@ import { NgFor, NgIf } from '@angular/common';
 })
 export class TransactionComponent {
   constructor(private http: HttpClient) {}
+
   transactions: any = [];
+  user = JSON.parse(localStorage.getItem('user') || '{}');
+
   ngOnInit(): void {
     this.http.get('http://localhost:3000/transactions').subscribe((res: any) => {
       this.transactions = res;

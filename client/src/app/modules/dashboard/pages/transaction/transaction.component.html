@@ -1,57 +1,54 @@
 <div class="sm:flex sm:items-center">
-	<div class="sm:flex-auto">
-		<h1 class="text-xl font-semibold text-gray-900">Transactions</h1>
-		<p class="mt-2 text-sm text-gray-700">A list of all the transactions in the system.</p>
-	</div>
-	<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-		<a href="/dashboard/transactions/create"
-			class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 sm:w-auto">
-			Create Transaction
-		</a>
-	</div>
+    <div class="sm:flex-auto">
+        <h1 class="text-xl font-semibold text-gray-900">Transactions</h1>
+        <p class="mt-2 text-sm text-gray-700">A list of all the transactions in the system.</p>
+    </div>
+    <div *ngIf="user && user.role == 'admin'" class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <a href="/dashboard/transactions/create"
+            class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 sm:w-auto">
+            Create Transaction
+        </a>
+    </div>
 </div>
 <div class="mt-8 flex flex-col" *ngIf="transactions.length > 0">
-	<div class="transaction-summary mb-6" *ngFor="let transaction of transactions">
-		<div class="flex items-center justify-between">
-			<div class="flex items-center">
-				<div class="flex flex-col">
-					<p class="text-sm font-semibold text-gray-900">Transaction #{{ transaction.id }}</p>
-					<p class="text-xs text-gray-500">{{ format(transaction.created_at) }}</p>
-				</div>
-			</div>
-			<div class="flex items-center">
-				<p class="text-sm font-semibold text-gray-900">Total: ${{ transaction.total }}</p>
-			</div>
-		</div>
-		<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg mt-4">
-			<table class="min-w-full divide-y divide-gray-300">
-				<thead class="bg-gray-50">
-					<tr>
-						<th scope="col"
-							class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 flex">
-							Name
-						</th>
-						<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-							Price
-						</th>
-						<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-							Quantity
-						</th>
-					</tr>
-				</thead>
-				<tbody class="divide-y divide-gray-200 bg-white">
-					<tr
-						*ngFor="let product of transaction.transactionProducts"
-						class="hover:bg-gray-50"
-					>
-						<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 flex gap-2 items-center">
-							<p class="text-gray-900">{{ product.product.name }}</p>
-						</td>
-						<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ product.product.price }}</td>
-						<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ product.product.quantity }}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+    <div class="transaction-summary mb-6" *ngFor="let transaction of transactions">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <div class="flex flex-col">
+                    <p class="text-sm font-semibold text-gray-900">Transaction #{{ transaction.id }}</p>
+                    <p class="text-xs text-gray-500">{{ format(transaction.created_at) }}</p>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <p class="text-sm font-semibold text-gray-900">Total: ${{ transaction.total }}</p>
+            </div>
+        </div>
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg mt-4">
+            <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 flex">
+                            Name
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Price
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Quantity
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    <tr *ngFor="let product of transaction.transactionProducts" class="hover:bg-gray-50">
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 flex gap-2 items-center">
+                            <p class="text-gray-900">{{ product.product.name }}</p>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ product.product.price }}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ product.quantity }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

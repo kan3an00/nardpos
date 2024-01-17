@@ -24,6 +24,7 @@ export class ProductComponent implements OnInit {
   search: any;
   minprice: any;
   maxprice: any;
+  user = JSON.parse(localStorage.getItem('user') || '{}');
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

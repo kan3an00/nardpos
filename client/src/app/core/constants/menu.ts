@@ -7,7 +7,6 @@ export class Menu {
 
     if (storedUser !== null) {
       user = JSON.parse(storedUser);
-      console.log(user)
     } else {
       // Handle the case when 'user' is not available in localStorage
       console.warn("No user data found in localStorage");
@@ -22,11 +21,11 @@ export class Menu {
             if (item.children) {
               item.children = item.children.filter(child => {
                 // Filter out 'Create Product' if user role is 'employee'
-                return !(user.role === 'employee' && child.label === 'Create Product');
+                return !(user.role === 'employee' && (child.label === 'Create Product' || child.label === 'Create Transaction') );
               });
             }
             // Filter out 'Create Product' if user role is 'employee'
-            return !(user.role === 'employee' && item.label === 'Create Product');
+            return !(user.role === 'employee' && (item.label === 'Create Product' || item.label === 'Create Transaction'));
           });
         }
         return group;

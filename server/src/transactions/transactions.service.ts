@@ -21,13 +21,6 @@ export class TransactionsService {
         });
     }
 
-    async getTransactionById(id: number): Promise<Transaction> {
-        return this.transactionRepository.findOne({
-            where: { id },
-            relations: ['transactionProducts', 'transactionProducts.product'],
-        });
-    }
-
     async createTransaction(transactionDto: TransactionDto): Promise<Transaction> {
         const { products: productQuantities } = transactionDto;
 
@@ -53,13 +46,26 @@ export class TransactionsService {
             transactionProducts.push(transactionProduct);
         }
       
-        const total = transactionProducts.reduce((acc, transactionProduct) => acc + transactionProduct.product.price * transactionProduct.quantity, 0);
-      
+        const total = transactionProducts.reduce((acc, transactionProduct) => {
+            const productPrice = transactionProduct.product.price;
+            const productQuantity = transactionProduct.quantity;
+
+            return acc + productPrice * productQuantity;
+        }, 0);
+        
         const transaction = this.transactionRepository.create({
             total,
             transactionProducts,
         });
-      
-        return await this.transactionRepository.save(transaction);
+        
+        const savedTransaction = this.transactionRepository.save(transaction);
+
+        for (const transactionProduct of transactionProducts) {
+            const product = transactionProduct.product;
+            product.quantity -= transactionProduct.quantity;
+            await this.productRepository.save(product);
+        }
+
+        return savedTransaction;
     }
 }

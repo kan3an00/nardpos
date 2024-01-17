@@ -11,8 +11,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { TransactionsModule } from './transactions/transactions.module';
 import { Transaction } from './transactions/transaction.entity';
 import { TransactionProduct } from './transactions/transaction-product.entity';
-import { AccessContorlService } from './shared/access-control.service';
-import { RoleGuard } from './guards/role.guard';
 
 @Module({
   imports: [

@@ -1,24 +1,46 @@
-version: '1'
+version: '3'
 
 services:
+  mysqldb:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3307:3307
+    networks:
+      - nardpos-net
+    environment:
+      MYSQL_DATABASE: nardpos
+      MYSQL_USER: kan3an
+      MYSQL_PASSWORD: nardpos
+      MYSQL_ROOT_PASSWORD: nardpos
+
   nest-backend:
     build:
       context: .
       dockerfile: Dockerfile.backend
-    environment:
-      NODE_ENV: production
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
+    networks:
+      - nardpos-net
+    environment:
+      DB_USERNAME: kan3an
+      DB_PASSWORD: nardpos
+      DB_NAME: nardpos
+      DB_HOST: mysqldb
+      JWT_SECRET: 6390904025
+    depends_on:
+      - mysqldb
 
   angular-frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+    networks:
+      - nardpos-net
     ports:
       - "4200:4200"
     depends_on:
       - nest-backend
-    volumes:
-      - .:/app
+
+networks:
+  nardpos-net:

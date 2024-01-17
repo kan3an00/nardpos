@@ -3,7 +3,7 @@
         <h1 class="text-xl font-semibold text-gray-900">Products</h1>
         <p class="mt-2 text-sm text-gray-700">A list of all the products in the system.</p>
     </div>
-    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+    <div *ngIf="user && user.role == 'admin'" class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <a href="/dashboard/products/create"
             class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 sm:w-auto">
             Create Product
@@ -12,9 +12,9 @@
 </div>
 <div class="mt-8 flex flex-col">
     <div class="flex flex-wrap gap-2">
-      <input [(ngModel)]="search" type="text" class="p-2 block lg:max-w-48 w-full w-full rounded-md border-0 text-gray-900 shadow-sm focus:ring-blue-600 ring-inset sm:text-sm sm:leading-6 ring-1 bg-transparent" placeholder="Search...">
-      <input [(ngModel)]="minprice" type="number" class="p-2 block lg:max-w-48 w-full w-full rounded-md border-0 text-gray-900 shadow-sm focus:ring-blue-600 ring-inset sm:text-sm sm:leading-6 ring-1 bg-transparent" placeholder="Min Price...">
-      <input [(ngModel)]="maxprice" type="number" class="p-2 block lg:max-w-48 w-full w-full rounded-md border-0 text-gray-900 shadow-sm focus:ring-blue-600 ring-inset sm:text-sm sm:leading-6 ring-1 bg-transparent" placeholder="Max Price...">
+      <input [(ngModel)]="search" type="text" class="p-2 block lg:max-w-48 w-full rounded-md border-0 text-gray-900 shadow-sm focus:ring-blue-600 ring-inset sm:text-sm sm:leading-6 ring-1 bg-transparent" placeholder="Search...">
+      <input [(ngModel)]="minprice" type="number" min="1" class="p-2 block lg:max-w-48 w-full rounded-md border-0 text-gray-900 shadow-sm focus:ring-blue-600 ring-inset sm:text-sm sm:leading-6 ring-1 bg-transparent" placeholder="Min Price...">
+      <input [(ngModel)]="maxprice" type="number" min="1" class="p-2 block lg:max-w-48 w-full rounded-md border-0 text-gray-900 shadow-sm focus:ring-blue-600 ring-inset sm:text-sm sm:leading-6 ring-1 bg-transparent" placeholder="Max Price...">
       <button (click)="filter()" class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 sm:w-auto">
         Search
       </button>

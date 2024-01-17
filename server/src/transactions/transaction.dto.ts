@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsArray, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsArray, ValidateNested, ArrayMinSize } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ProductDto {
@@ -12,6 +12,7 @@ export class ProductDto {
 export class TransactionDto {
     @IsNotEmpty()
     @IsArray()
+    @ArrayMinSize(1)
     @ValidateNested({ each: true })
     @Type(() => ProductDto)
     products: ProductDto[];

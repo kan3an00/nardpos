@@ -20,12 +20,14 @@ const routes: Routes = [
           { path: 'create', component: ProductCreateComponent },
           { path: 'edit/:id', component: ProductEditComponent },
         ],
+        canActivate: [RoleGuard]
       },
       { path: 'transactions',
         children: [
           { path: '', component: TransactionComponent },
           { path: 'create', component: TransactionCreateComponent },
-        ]
+        ],
+        canActivate: [RoleGuard]
       },
       { path: '**', redirectTo: 'error/404' },
     ],
