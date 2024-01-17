@@ -1,6 +1,42 @@
 import { MenuItem } from '../models/menu.model';
 
 export class Menu {
+  public static getFilteredPages(): MenuItem[] {
+    let user: any = null;
+    const storedUser = localStorage.getItem('user');
+
+    if (storedUser !== null) {
+      user = JSON.parse(storedUser);
+      console.log(user)
+    } else {
+      // Handle the case when 'user' is not available in localStorage
+      console.warn("No user data found in localStorage");
+    }
+
+    // Check if the user exists and has a role
+    if (user && user.role) {
+      // Filter menu items based on user role
+      return this.pages.map(group => {
+        if (group.items) {
+          group.items = group.items.filter(item => {
+            if (item.children) {
+              item.children = item.children.filter(child => {
+                // Filter out 'Create Product' if user role is 'employee'
+                return !(user.role === 'employee' && child.label === 'Create Product');
+              });
+            }
+            // Filter out 'Create Product' if user role is 'employee'
+            return !(user.role === 'employee' && item.label === 'Create Product');
+          });
+        }
+        return group;
+      });
+    }
+
+    // Default to returning the original menu if user or role is not available
+    return this.pages;
+  }
+
   public static pages: MenuItem[] = [
     {
       group: 'Products',

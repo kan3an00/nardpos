@@ -18,14 +18,4 @@ export class TransactionController {
     async createTransaction(@Body() transactionDto: TransactionDto) {
         return this.transactionService.createTransaction(transactionDto);
     }
-
-    @Put(':id')
-    async updateTransaction(@Param('id') transactionId: number, @Body() transactionDto: TransactionDto): Promise<Transaction> {
-        return this.transactionService.updateTransaction(transactionId, transactionDto);
-    }
-
-    @Delete(':id')
-    async deleteTransaction(@Param('id') transactionId: number) {
-        return this.transactionService.deleteTransaction(transactionId);
-    }
 }

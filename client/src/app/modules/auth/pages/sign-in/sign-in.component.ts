@@ -28,6 +28,10 @@ export class SignInComponent implements OnInit {
   constructor(private readonly _formBuilder: FormBuilder, private readonly _router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this._router.navigate(['/']);
+    }
     this.form = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -53,7 +57,8 @@ export class SignInComponent implements OnInit {
 
     this.http.post('http://localhost:3000/auth/login', { email, password }).subscribe(
       (res: any) => {
-        localStorage.setItem('token', res.token);
+        localStorage.setItem('token', res.accessToken);
+        localStorage.setItem('user', JSON.stringify(res.user));
         this._router.navigate(['/']);
       },
       (err: any) => {

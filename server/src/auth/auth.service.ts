@@ -25,12 +25,12 @@ export class AuthService {
             throw new UnauthorizedException('Invalid credentials');
         }
         
-        const payload = { email: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.id, role: user.role};
 
         const accessToken = await this.jwtService.signAsync(payload);
 
         return {
-            user: user,
+            user: sanitizeUser(user),
             accessToken: accessToken
         };
     }
@@ -38,9 +38,8 @@ export class AuthService {
     async register(register: registerDto): Promise<any> {
         const hashedPassword = await bcrypt.hash(register.password, 10);
         register.password = hashedPassword;
-        console.log(register)
         const user = await this.usersService.create(register);
-        const payload = { email: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.id, role: user.role };
 
         const accessToken = await this.jwtService.signAsync(payload);
 

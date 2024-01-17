@@ -15,7 +15,7 @@ export class MenuService implements OnDestroy {
 
   constructor(private router: Router) {
     /** Set dynamic menu */
-    this._pagesMenu.set(Menu.pages);
+    this._pagesMenu.set(Menu.getFilteredPages());
 
     let sub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

@@ -1,7 +1,11 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query, UseGuards } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductDto } from './product.dto';
 import { Product } from './product.entity';
+import {Role} from 'src/enums/role.enum';
+import {Roles} from 'src/decorators/roles.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { RoleGuard } from 'src/guards/role.guard';
 
 @Controller('products')
 export class ProductController {
@@ -20,8 +24,10 @@ export class ProductController {
   async getProductById(@Param('id') id: number): Promise<Product> {
     return this.productsService.getProductById(id);
   }
-
+  
   @Post()
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RoleGuard)
   async createProduct(@Body() productDTO: ProductDto): Promise<Product> {
     return this.productsService.createProduct(productDTO);
   }

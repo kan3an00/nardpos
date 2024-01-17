@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { NgClass } from '@angular/common';;
+import { Router, RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';import { AngularSvgIconModule } from 'angular-svg-icon';
+;
 
 @Component({
     selector: 'app-profile-menu',
@@ -9,16 +10,32 @@ import { NgClass } from '@angular/common';;
     imports: [
         NgClass,
         RouterLink,
+        AngularSvgIconModule
     ],
 })
 export class ProfileMenuComponent implements OnInit {
   public isMenuOpen = false;
+  public user: any;
 
-  constructor() {}
+  constructor(private readonly _router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser !== null) {
+      this.user = JSON.parse(storedUser);
+    } else {
+      // Handle the case when 'user' is not available in localStorage
+      console.warn("No user data found in localStorage");
+    }
+  }
 
   public toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  public signOut(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    this._router.navigate(['/auth/sign-in']);
   }
 }

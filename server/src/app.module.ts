@@ -11,6 +11,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { TransactionsModule } from './transactions/transactions.module';
 import { Transaction } from './transactions/transaction.entity';
 import { TransactionProduct } from './transactions/transaction-product.entity';
+import { AccessContorlService } from './shared/access-control.service';
+import { RoleGuard } from './guards/role.guard';
 
 @Module({
   imports: [
@@ -33,7 +35,7 @@ import { TransactionProduct } from './transactions/transaction-product.entity';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1000000s' },
     }),
     ProductsModule,
     AuthModule,
